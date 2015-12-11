@@ -1,0 +1,18 @@
+<ion-view title="Home">
+      <ion-content>
+      <ion-spinner class="spinner-calm" icon="lines" ng-show="isLoading"></ion-spinner>
+      	<ul class="list" ng-repeat="report in reports">
+            <li class="item">
+              {{report.timestamp}} 
+              {{report.waveHeight}}
+              {{report.comment}}
+              {{report.wind}}
+            </li>
+ 		</ul>
+
+     </ion-content>
+</ion-view>
+
+
+
+ 
