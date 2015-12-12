@@ -32,36 +32,56 @@ app.config(function($stateProvider, $urlRouterProvider) {
     controller: 'StatusCtrl'
   })
   .state('report', {
-    url: '/report',
+    url: '/report/:spotId',
     templateUrl: 'views/report.html',
     controller: 'ReportCtrl'
+  })
+  .state('reports', {
+    url: '/reports/:spotId',
+    templateUrl: 'views/spotReports.html',
+    controller: 'ReportsCtrl'
   })
 });
 
 
 
-app.controller('StatusCtrl', function($scope, $firebaseArray){
+app.controller('StatusCtrl', function($scope, $firebaseArray, $stateParams){
   $scope.userAuth = false;
   $scope.isLoading = true;
 
   var FBURL = "https://waveshout.firebaseio.com/";
-  $scope.reports = $firebaseArray(new Firebase(FBURL + 'reports'));
+  
+  $scope.spots = $firebaseArray(new Firebase(FBURL + 'spots'));
+
 
 });
 
-
-app.controller('ReportCtrl', function($scope, $firebaseArray){
+app.controller('ReportsCtrl', function($scope, $firebaseArray, $stateParams){
   $scope.userAuth = false;
 
   var FBURL = "https://waveshout.firebaseio.com/";
-  $scope.reports = $firebaseArray(new Firebase(FBURL + 'reports'));
+  $scope.spotId = $stateParams.spotId;
+  console.log($scope.spotId);
+  $scope.reports = $firebaseArray(new Firebase(FBURL + 'spots/' + $scope.spotId + '/reports'));
+  console.log(FBURL + 'spots/' + $scope.spotId + 'reports');
+  console.log($scope.reports);
+});
+
+app.controller('ReportCtrl', function($scope, $firebaseArray, $stateParams){
+  $scope.userAuth = false;
+
+  var FBURL = "https://waveshout.firebaseio.com/";
+  $scope.spotId = $stateParams.spotId;
+
+  $scope.reports = $firebaseArray(new Firebase(FBURL + 'spots/' + $scope.spotId + '/reports'));
+  $scope.spots = $firebaseArray(new Firebase(FBURL + 'spots'));
 
   $scope.report = {
-    'spotId': '0',
-    'userId': '0',
+    'user': 'kazak',
     'waveHeight': '',
     'comment': '',
     'wind': '',
+    'count': '',
     'timestamp':  ''
   }
 
@@ -70,21 +90,21 @@ app.controller('ReportCtrl', function($scope, $firebaseArray){
     $scope.isLoading = true;
     $scope.reports.$add(
         {
-          spotId: $scope.report.spotId,
-          userId: $scope.report.userId,
+          user: $scope.report.user,
           waveHeight: $scope.report.waveHeight,
           comment: $scope.report.comment,
           wind: $scope.report.wind,
+          count: $scope.reports.count + 1,
           timestamp: timeStamp()
         }
       ).then(function(a){
         $scope.isLoading = false;
+
+        // clear report object
+       
       });
 
-    // clear report object
-    angular.forEach($scope.report, function(val,key){
-      val = '';
-    });
+    
     console.log($scope.report);
   }
 

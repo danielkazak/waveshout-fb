@@ -1,0 +1,32 @@
+<ion-view title="Reports">
+      <ion-content>
+      <ion-spinner class="spinner-calm" icon="lines" ng-show="isLoading"></ion-spinner>
+      <button class="button button-block button-balanced"  ui-sref="report({ spotId: spotId })">
+          +
+        </button>
+     
+      	<ul class="list" ng-repeat="report in reports">
+      	<div class="item item-divider">
+	   	 <div class="row">
+			  <div class="col col-30"><i class="icon ion-person"></i>{{report.user}} </div>
+			  <div class="col col-70">{{report.comment}}</div>
+			</div>
+	  	</div>
+            <li class="item" >
+            <div class="row">
+			  <div class="col col-50"><i class="icon ion-clock"></i>{{report.timestamp.substring(11,22)}} </div>
+			  <div class="col"><i class="icon ion-ios-analytics-outline"></i>{{report.waveHeight}}</div>
+			  <div class="col">{{report.wind}}</div>
+			</div>
+              
+              
+              
+            </li>
+ 		</ul>
+
+     </ion-content>
+</ion-view>
+
+
+
+ 
