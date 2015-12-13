@@ -1,19 +1,37 @@
 <ion-view title="Home">
-      <ion-content>
-      <ion-spinner class="spinner-calm" icon="lines" ng-show="isLoading"></ion-spinner>
-        <ul class="list" ng-repeat="spot in spots">
-          <li class="item" ui-sref="reports({ spotId: spot.$id })">
-            <div class="row">
-              <div class="col col-50"><i class="icon ion-clock"></i>{{spot.spotName}} </div>
-              <div class="col"><i class="icon ion-ios-analytics-outline"></i>{{spot.avgWaveHeight}}</div>
-              <div class="col">{{spot.reports.count}}</div>
-            </div>
-              
-          </li>
-
-    </ul>
+      <ion-content direction="y" has-bouncing="true">
+      <ion-slide-box on-slide-changed="slideHasChanged($index)" show-pager="false">
+        <ion-slide>
+          <div class="list list-inset">
+          <center>
+            <ion-spinner class="spinner-calm loader-center" icon="lines" ng-hide="spots.length > 1"></ion-spinner>
+          </center>
 
 
+          <ul class="list" ng-repeat="spot in spots" ng-show="spots.length > 1">
+            <li class="item" ui-sref="reports({ spotId: spot.$id, spotName: spot.spotName })">
+              <div class="row">
+                <div class="col col-10"><i class="icon ion-location"></i></div>
+                <div class="col col-50">{{spot.spotName}} </div>
+                <div class="col-10"><i class="icon ion-ios-analytics-outline"></i></div>
+                <div class="col-20"><h2>{{spot.avgWaveHeight / 100 | number: 1}}(m)</h2></div>
+                <div class="col">{{spot.reports.count}}</div>
+              </div>
+                
+            </li>
+
+          </ul>
+        </div>
+        </ion-slide>
+        <ion-slide>
+          more options
+        </ion-slide>
+        <ion-slide>
+          <div class="box pink"><h1>PINK</h1></div>
+        </ion-slide>
+      </ion-slide-box>
+        
+      
 
 
      </ion-content>
