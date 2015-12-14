@@ -17,3 +17,45 @@
 	width: 30vw;
 	height: 30vh;
 }
+
+.message-show{
+	-webkit-transition: all 0.5s;
+	
+}
+
+.message-hide {
+	
+}
+
+.item.item-input {
+	background-color: #636363;
+	
+}
+
+.input-text {
+	color: white;
+	opacity: 0.9;
+}
+
+.ion-content {
+	background-color: #232323;
+}
+
+.list{
+	background-color: transparent;
+	color: white;
+}
+
+.item{
+	background-color: #515151;
+	opacity: 1;
+	font-size: 120%;
+	font-weight: bold;
+	border: none;
+	-webkit-border-radius: 2px;
+	color: #3fd2ff;
+}
+
+.user-comment {
+	color: white;
+}

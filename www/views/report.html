@@ -1,5 +1,5 @@
 <ion-view title="Report">
-      <ion-content>
+      <ion-content class="ion-content">
     
 
 
@@ -12,15 +12,13 @@
           <i class="icon ion-ios-analytics-outline placeholder-icon"></i>
           <input type="text" placeholder="Wave height (cm)" ng-model="report.waveHeight">
         </label>
-      </div>
-
-      <!-- Short comment -->
-      <div class="list list-inset">
         <label class="item item-input">
-          <i class="icon ion-ios-compose-outline placeholder-icon"></i>
+          <i class="icon ion-ios-analytics-outline placeholder-icon"></i>
           <input type="text" placeholder="Short comment" ng-model="report.comment">
         </label>
       </div>
+
+
 
       <!-- Submit button -->
       <div class="list list-inset">
@@ -34,12 +32,14 @@
 
 
       <!-- Wind meter -->
-      <div class="list">
+      <div class="list list-inset">
         <div class="item range range-positive">
           <i class="icon ion-ios-paperplane-outline"></i>
-          <input type="range" name="volume" min="1" max="3" value="2" ng-model="report.wind">
+          <input type="range" name="volume" min="1" max="100" value="10" ng-model="report.wind">
           <i class="icon ion-ios-paperplane"></i>
         </div>
       </div>
       </ion-content>
+      
+      
 </ion-view>

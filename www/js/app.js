@@ -5,6 +5,9 @@
 // the 2nd parameter is an array of 'requires'
 var app = angular.module('starter', ['ionic', 'firebase']);
 
+
+
+
 app.run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
     if(window.cordova && window.cordova.plugins.Keyboard) {
@@ -23,6 +26,11 @@ app.run(function($ionicPlatform) {
   });
 });
 
+
+
+
+
+// Routing configurations
 app.config(function($stateProvider, $urlRouterProvider) {
   $urlRouterProvider.otherwise('/')
 
@@ -41,27 +49,169 @@ app.config(function($stateProvider, $urlRouterProvider) {
     templateUrl: 'views/spotReports.html',
     controller: 'ReportsCtrl'
   })
-  .state('Map', {
+  .state('map', {
     url: '/map',
     templateUrl: 'views/map.html',
     controller: 'MapCtrl'
   })
+  .state('auth', {
+    url: '/auth',
+    templateUrl: 'views/auth.html',
+    controller: 'AuthCtrl'
+  })
+});
+
+// Auth service
+app.factory('Auth', function($rootScope, $firebaseAuth){
+  var FBURL = "https://waveshout.firebaseio.com/";
+  var fb = new Firebase(FBURL);
+  var auth = $firebaseAuth(fb);
+  
+  
+  var service = {
+    register: function (user) {
+      return auth.$createUser(user);
+    },
+    login: function(user) {
+      return auth.$authWithPassword(user);
+    },
+    logout: function(){
+      return auth.$unAuth();
+    },
+    auth: function(){
+      return auth;
+    }
+  }
+  
+  return service;
+  
 });
 
 
 
-app.controller('StatusCtrl', function($scope, $firebaseArray, $ionicLoading, $stateParams, $compile){
+// Message service
+app.factory('MessageService', function($rootScope){
+    var service = {
+      type: {
+        success: 'bar bar-footer bar-balanced',
+        info: 'bar bar-footer bar-calm',
+        error: 'bar bar-footer bar-energized'
+      },
+      show: function(type, message){
+        $rootScope.message = message;
+        $rootScope.messageType = type;
+        $rootScope.messageVisible = true;
+      },
+      hide: function(){
+        $rootScope.message = '';
+        $rootScope.messageType = '';
+        $rootScope.messageVisible = false;
+      }
+    };
+    
+    return service;
+});
+
+
+
+
+// Authentication page controller
+app.controller('AuthCtrl', function($scope, $firebaseArray, $location, $timeout, $stateParams, MessageService, $rootScope, Auth){
+  $scope.userAuth = false;
+  $scope.isLoading = false;
+  $scope.userObject = {
+    'email': '',
+    'password': '',
+  }
+
+
+
+  $scope.createUser = function(){
+    // VALIDATIONS //
+    
+    // Show loader
+    $scope.isLoading = true;
+    
+    Auth.register($scope.userObject).then(function(regData){
+      console.log(regData);
+      MessageService.show(MessageService.success, 'Welcome!');
+      $scope.isLoading = false;
+     $timeout(function(){$location.path('/');}, 2000);
+    }).catch(function(error){
+      console.log(error);
+      MessageService.show(MessageService.error, error.message);
+      $scope.isLoading = false;
+    });
+    
+    
+    
+    
+    };
+    
+    // User Login
+    $scope.userLogin = function(){
+      
+      // Show loader
+      $scope.isLoading = true;
+      
+      Auth.login($scope.userObject).then(function(authData){
+        console.log(authData);
+        MessageService.show(MessageService.success, "Logged in!");
+        $scope.isLoading = false;
+        $timeout(function(){$location.path('/');}, 2000);
+      }).catch(function(error){
+        console.log(error);
+        MessageService.show(MessageService.error, error.message);
+        $scope.isLoading = false;
+      });
+      
+    }
+
+});
+
+
+
+
+
+// Index page controller
+app.controller('IndexCtrl', function($scope, $firebaseArray, MessageService, $rootScope){
+  $scope.userAuth = false;
+  $scope.isLoading = false;
+
+  $scope.hideMessage = function(){
+    MessageService.hide();
+  }
+
+         
+
+});
+
+
+
+
+// Status page controller
+app.controller('StatusCtrl', function($scope, $firebaseArray, $ionicLoading, $stateParams, $compile, MessageService){
   $scope.userAuth = false;
   $scope.isLoading = false;
 
   var FBURL = "https://waveshout.firebaseio.com/";
   
   $scope.spots = $firebaseArray(new Firebase(FBURL + 'spots'));
-
+  
+  $scope.test = function(){
+    MessageService.show(MessageService.type.info, 'Testing this sht');
+  }
+  
+  
          
 
 });
 
+
+
+
+
+// Reports per spot Controller
 app.controller('ReportsCtrl', function($scope, $firebaseArray, $stateParams){
   $scope.userAuth = false;
 
@@ -73,6 +223,10 @@ app.controller('ReportsCtrl', function($scope, $firebaseArray, $stateParams){
   console.log(FBURL + 'spots/' + $scope.spotId + 'reports');
   console.log($scope.reports);
 });
+
+
+
+
 
 
 
@@ -106,7 +260,10 @@ app.controller('MapCtrl', function($scope, $firebaseArray, $stateParams, $compil
 
 
 
-app.controller('ReportCtrl', function($scope, $firebaseArray, $stateParams){
+
+
+
+app.controller('ReportCtrl', function($scope, $firebaseArray, $stateParams, MessageService){
   $scope.userAuth = false;
 
   var FBURL = "https://waveshout.firebaseio.com/";
@@ -177,3 +334,5 @@ app.controller('ReportCtrl', function($scope, $firebaseArray, $stateParams){
     }
 
 });
+
+
