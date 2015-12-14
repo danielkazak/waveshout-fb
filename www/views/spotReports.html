@@ -1,0 +1,45 @@
+<ion-view title="Reports">
+      	<ion-content>
+      	
+
+      
+    <div class="list list-inset">
+    	<div class="item item-divider">
+		  <h2 class="title">{{spotName}}</h2>
+		</div>
+      	<ion-spinner class="spinner-calm" icon="lines" ng-hide="reports.length > 1"></ion-spinner>
+
+      	<button class="button button-block button-calm"  ui-sref="report({ spotId: spotId, spotName: spotName })">
+          New report!
+        </button>
+       </div>
+     
+      	<ul class="list" ng-repeat="report in reports">
+      	<div class="list list-inset">
+	      	<div class="item item-divider" >
+		   	 <div class="row">
+		   		  <div class="col col-10"><i class="icon ion-clock"></i></div>
+				  <div class="col col-50">{{report.timestamp.substring(11,22)}} </div>
+				  <div class="col col-30">{{report.waveHeight / 100 | number: 1}}(m)</div>
+				  <div class="col col-10">{{report.wind}}</div>
+				</div>
+		  	</div>
+            <li class="item" >
+            <div class="row">
+			  <div class="col col-20"><i class="icon ion-person"></i>{{report.user}} </div>
+			  <div class="col col-80">{{report.comment}}</div>
+			</div>
+              
+              
+              
+            </li>
+        </div>
+ 		</ul>
+
+
+     </ion-content>
+</ion-view>
+
+
+
+ 

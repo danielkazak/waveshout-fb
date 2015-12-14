@@ -32,33 +32,92 @@ app.config(function($stateProvider, $urlRouterProvider) {
     controller: 'StatusCtrl'
   })
   .state('report', {
-    url: '/report',
+    url: '/report/:spotId/:spotName',
     templateUrl: 'views/report.html',
     controller: 'ReportCtrl'
+  })
+  .state('reports', {
+    url: '/reports/:spotId/:spotName',
+    templateUrl: 'views/spotReports.html',
+    controller: 'ReportsCtrl'
+  })
+  .state('Map', {
+    url: '/map',
+    templateUrl: 'views/map.html',
+    controller: 'MapCtrl'
   })
 });
 
 
 
-app.controller('StatusCtrl', function($scope, $firebaseArray){
+app.controller('StatusCtrl', function($scope, $firebaseArray, $ionicLoading, $stateParams, $compile){
   $scope.userAuth = false;
-  $scope.isLoading = true;
+  $scope.isLoading = false;
 
   var FBURL = "https://waveshout.firebaseio.com/";
-  $scope.reports = $firebaseArray(new Firebase(FBURL + 'reports'));
+  
+  $scope.spots = $firebaseArray(new Firebase(FBURL + 'spots'));
+
+         
 
 });
 
-
-app.controller('ReportCtrl', function($scope, $firebaseArray){
+app.controller('ReportsCtrl', function($scope, $firebaseArray, $stateParams){
   $scope.userAuth = false;
 
   var FBURL = "https://waveshout.firebaseio.com/";
-  $scope.reports = $firebaseArray(new Firebase(FBURL + 'reports'));
+  $scope.spotId = $stateParams.spotId;
+  $scope.spotName = $stateParams.spotName;
+
+  $scope.reports = $firebaseArray(new Firebase(FBURL + 'spots/' + $scope.spotId + '/reports'));
+  console.log(FBURL + 'spots/' + $scope.spotId + 'reports');
+  console.log($scope.reports);
+});
+
+
+
+app.controller('MapCtrl', function($scope, $firebaseArray, $stateParams, $compile, $ionicLoading){
+  console.log('mapctrl');
+  google.maps.event.addDomListener(window, 'load', function() {
+        console.log('fire');
+        var myLatlng = new google.maps.LatLng(37.3000, -120.4833);
+ 
+        var mapOptions = {
+            center: myLatlng,
+            zoom: 16,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+ 
+        var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+ 
+        navigator.geolocation.getCurrentPosition(function(pos) {
+            map.setCenter(new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude));
+            var myLocation = new google.maps.Marker({
+                position: new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude),
+                map: map,
+                title: "My Location"
+            });
+        });
+ 
+        $scope.map = map;
+    });
+});
+
+
+
+
+app.controller('ReportCtrl', function($scope, $firebaseArray, $stateParams){
+  $scope.userAuth = false;
+
+  var FBURL = "https://waveshout.firebaseio.com/";
+  $scope.spotId = $stateParams.spotId;
+  $scope.spotName = $stateParams.spotName;
+
+  $scope.reports = $firebaseArray(new Firebase(FBURL + 'spots/' + $scope.spotId + '/reports'));
+  $scope.spots = $firebaseArray(new Firebase(FBURL + 'spots'));
 
   $scope.report = {
-    'spotId': '0',
-    'userId': '0',
+    'user': 'kazak',
     'waveHeight': '',
     'comment': '',
     'wind': '',
@@ -70,8 +129,7 @@ app.controller('ReportCtrl', function($scope, $firebaseArray){
     $scope.isLoading = true;
     $scope.reports.$add(
         {
-          spotId: $scope.report.spotId,
-          userId: $scope.report.userId,
+          user: $scope.report.user,
           waveHeight: $scope.report.waveHeight,
           comment: $scope.report.comment,
           wind: $scope.report.wind,
@@ -79,12 +137,12 @@ app.controller('ReportCtrl', function($scope, $firebaseArray){
         }
       ).then(function(a){
         $scope.isLoading = false;
+
+        // clear report object
+       
       });
 
-    // clear report object
-    angular.forEach($scope.report, function(val,key){
-      val = '';
-    });
+    
     console.log($scope.report);
   }
 

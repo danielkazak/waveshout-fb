@@ -4,6 +4,10 @@
 
 
       <div class="list list-inset">
+        <div class="item item-divider">
+          <h2 class="title">{{spotName}}</h2>
+        </div>
+      
         <label class="item item-input">
           <i class="icon ion-ios-analytics-outline placeholder-icon"></i>
           <input type="text" placeholder="Wave height (cm)" ng-model="report.waveHeight">
@@ -23,7 +27,7 @@
         <center>
          <ion-spinner class="spinner-calm loader-wave" icon="lines" ng-show="isLoading"></ion-spinner>
         </center>
-        <button class="button button-block button-balanced" ng-click="addReport()" ng-hide="isLoading">
+        <button class="button button-block button-calm" ng-click="addReport()" ng-hide="isLoading">
           Submit report
         </button>
       </div>
