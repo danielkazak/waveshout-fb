@@ -92,20 +92,20 @@ app.factory('Auth', function($rootScope, $firebaseAuth){
 // Message service
 app.factory('MessageService', function($rootScope){
     var service = {
-      type: {
+      types: {
         success: 'bar bar-footer bar-balanced',
         info: 'bar bar-footer bar-calm',
         error: 'bar bar-footer bar-energized'
       },
       show: function(type, message){
-        $rootScope.message = message;
-        $rootScope.messageType = type;
-        $rootScope.messageVisible = true;
+        this.message = message;
+        this.messageType = type;
+        this.messageVisible = true;
       },
       hide: function(){
-        $rootScope.message = '';
-        $rootScope.messageType = '';
-        $rootScope.messageVisible = false;
+        this.message = '';
+        this.messageType = '';
+        this.messageVisible = false;
       }
     };
     
@@ -116,8 +116,7 @@ app.factory('MessageService', function($rootScope){
 
 
 // Authentication page controller
-app.controller('AuthCtrl', function($scope, $firebaseArray, $location, $timeout, $stateParams, MessageService, $rootScope, Auth){
-  $scope.userAuth = false;
+app.controller('AuthCtrl', function($scope, $firebaseArray, $location, $timeout, $ionicPopup, $stateParams, MessageService, $rootScope, Auth){
   $scope.isLoading = false;
   $scope.userObject = {
     'email': '',
@@ -125,7 +124,7 @@ app.controller('AuthCtrl', function($scope, $firebaseArray, $location, $timeout,
   }
 
 
-
+  // Create new user on Firebase
   $scope.createUser = function(){
     // VALIDATIONS //
     
@@ -143,10 +142,7 @@ app.controller('AuthCtrl', function($scope, $firebaseArray, $location, $timeout,
       $scope.isLoading = false;
     });
     
-    
-    
-    
-    };
+  };
     
     // User Login
     $scope.userLogin = function(){
@@ -174,9 +170,14 @@ app.controller('AuthCtrl', function($scope, $firebaseArray, $location, $timeout,
 
 
 // Index page controller
-app.controller('IndexCtrl', function($scope, $firebaseArray, MessageService, $rootScope){
-  $scope.userAuth = false;
+app.controller('IndexCtrl', function($scope, $firebaseArray, MessageService, $ionicLoading){
   $scope.isLoading = false;
+  $scope.loading = {
+    template: '<ion-spinner class="spinner-calm" icon="lines"></ion-spinner>',
+    noBackdrop: true
+  };
+  
+  $scope.baba = {'myInput': 'test'}
 
   $scope.hideMessage = function(){
     MessageService.hide();
@@ -191,7 +192,6 @@ app.controller('IndexCtrl', function($scope, $firebaseArray, MessageService, $ro
 
 // Status page controller
 app.controller('StatusCtrl', function($scope, $firebaseArray, $ionicLoading, $stateParams, $compile, MessageService){
-  $scope.userAuth = false;
   $scope.isLoading = false;
 
   var FBURL = "https://waveshout.firebaseio.com/";
@@ -199,7 +199,7 @@ app.controller('StatusCtrl', function($scope, $firebaseArray, $ionicLoading, $st
   $scope.spots = $firebaseArray(new Firebase(FBURL + 'spots'));
   
   $scope.test = function(){
-    MessageService.show(MessageService.type.info, 'Testing this sht');
+    MessageService.show(MessageService.types.info, 'Testing this sht');
   }
   
   
@@ -212,12 +212,13 @@ app.controller('StatusCtrl', function($scope, $firebaseArray, $ionicLoading, $st
 
 
 // Reports per spot Controller
-app.controller('ReportsCtrl', function($scope, $firebaseArray, $stateParams){
-  $scope.userAuth = false;
+app.controller('ReportsCtrl', function($scope, $firebaseArray, $stateParams, $ionicNavBarDelegate){
 
   var FBURL = "https://waveshout.firebaseio.com/";
   $scope.spotId = $stateParams.spotId;
   $scope.spotName = $stateParams.spotName;
+  
+  $ionicNavBarDelegate.title('Reports:' + $scope.spotName);
 
   $scope.reports = $firebaseArray(new Firebase(FBURL + 'spots/' + $scope.spotId + '/reports'));
   console.log(FBURL + 'spots/' + $scope.spotId + 'reports');

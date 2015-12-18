@@ -59,3 +59,8 @@
 .user-comment {
 	color: white;
 }
+
+.swipe-animation.ng-enter {
+    -webkit-animation: fadeInLeft 3s;
+    animation: fadeInLeft 3s;
+}
