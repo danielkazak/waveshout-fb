@@ -9,7 +9,7 @@
 
 
           <ul class="list" ng-repeat="spot in spots" ng-show="spots.length > 1">
-            <li class="item" ui-sref="reports({ spotId: spot.$id, spotName: spot.name })">
+            <li class="item status-item" ui-sref="reports({ spotId: spot.$id, spotName: spot.name })">
               <div class="row">
                 <div class="col col-10"><i class="icon ion-location"></i></div>
                 <div class="col col-50">{{spot.name}} </div>

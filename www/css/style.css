@@ -29,6 +29,7 @@
 
 .item.item-input {
 	background-color: #636363;
+	border: none;
 	
 }
 
@@ -46,7 +47,7 @@
 	color: white;
 }
 
-.item{
+/*.item{
 	background-color: #515151;
 	opacity: 1;
 	font-size: 120%;
@@ -54,7 +55,7 @@
 	border: none;
 	-webkit-border-radius: 2px;
 	color: #3fd2ff;
-}
+}*/
 
 .user-comment {
 	color: white;
@@ -65,26 +66,21 @@
     animation: fadeInLeft 3s;
 }
 
-.login-input-border {
+/*.login-input-border {
 	background-color: #4B5052;
 	
 	height: 10vh;
-}
+}*/
 
 
 
-.login-input {
+
+
+/*.login-input {
 	color: #3fd2ff;
-}
+}*/
 
-.login-input:focus /* check conditional!! */ {
-  -webkit-animation-name: rubber;
-  animation-name: rubber;
-  -webkit-animation-duration: 1s;
-  animation-duration: 1s;
-  -webkit-animation-fill-mode: both;
-  animation-fill-mode: both;
-}
+
 
 .transparent {
 	background-color: transparent;
@@ -98,6 +94,61 @@
 	color: #3fd2ff;
 	font-size: 60px;
 }
+
+
+
+
+
+/* Items */
+
+.status-item {
+	background-color: #515151;
+	opacity: 1;
+	font-size: 120%;
+	font-weight: bold;
+	border: none;
+	-webkit-border-radius: 2px;
+	color: #3fd2ff;
+}
+
+.status-item:active {
+	background-color: #7D7D7D;
+}
+
+.item-header {
+	background-color: #4A4C4D;
+	border: none;
+	color: #3fd2ff
+}
+
+.login-item {
+	background-color: transparent;
+	border: none;
+}
+
+.login-input-item {
+	background-color: #7D7D7D;
+	padding: 5px;
+	width: 100%;
+	border: none;
+	-webkit-border-radius: 2px;
+	color: #3fd2ff;
+	height: 40px;
+}
+
+.login-input-item:focus /* check conditional!! */ {
+  background-color: #3fd2ff;
+  -webkit-placeholder-color: white;
+  color: white;
+  -webkit-animation-name: rubber;
+  animation-name: rubber;
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+
+
 
 
 

@@ -13,7 +13,7 @@
      
       	<ul class="list" ng-repeat="report in reports">
       	<div class="list list-inset">
-	      	<div class="item item-divider" >
+	      	<div class="item item-divider item-header" >
 		   	 <div class="row">
 		   		  <div class="col col-10"><i class="icon ion-clock"></i></div>
 				  <div class="col col-50">{{report.timestamp.substring(11,22)}} </div>
@@ -21,10 +21,10 @@
 				  <div class="col col-10">{{report.wind}}</div>
 				</div>
 		  	</div>
-            <li class="item" >
+            <li class="item status-item" >
             <div class="row">
-			  <div class="col col-25"><i class="icon ion-person"></i>{{report.user}} </div>
-			  <div class="col col-75 user-comment">{{report.comment}}</div>
+			  <div class="col col-50"><i class="icon ion-person"></i>{{report.user.split("@")[0]}} </div>
+			  <div class="col col-50 user-comment">{{report.comment}}</div>
 			</div>
               
               

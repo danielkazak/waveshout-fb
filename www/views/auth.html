@@ -13,18 +13,21 @@
             </center>
 
             <!-- Login form -->
-              <div class="list list-inset transparent">
-                  <div class="item item-input-inset login-input-border">
+              <div class="list list-inset ">
+                  
+                      <input class="login-input-item" type="text" placeholder="Email" ng-model="userObject.email">
+                      <br>
+                  
+                      <input class="login-input-item" type="text" placeholder="Password" ng-model="userObject.password">
+                  
+                  
+                  
+                  
+                 <!-- <div class="item item-input-inset login-input-border">
                     <label class="item-input">
-                      <input class ="login-input" type="text" placeholder="Email" ng-model="userObject.email">
-                    </label>
-                  </div>
-                  <br>
-                  <div class="item item-input-inset login-input-border">
-                    <label class="item-input ">
                       <input class"login-input" type="password" placeholder="Password" ng-model="userObject.password">
                     </label>
-                  </div>
+                  </div>-->
                   
                   <center>
                     <ion-spinner class="spinner-calm loader-wave" icon="lines" ng-show="isLoading"></ion-spinner>
@@ -34,10 +37,9 @@
                       Login
                   </button>
                   
-                  <div class="item">
+                  <!--<div class="item animated infinite fadeInRight transparent">
                     <label>Swipe to register</label>
-                    <i class="icon ion-android-hand  animated infinite fadeInRight"></i>
-                  </div>
+                  </div>-->
                   
               </div>
             </div>
