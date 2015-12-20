@@ -61,56 +61,11 @@ app.config(function($stateProvider, $urlRouterProvider) {
   })
 });
 
-// Auth service
-app.factory('Auth', function($rootScope, $firebaseAuth){
-  var FBURL = "https://waveshout.firebaseio.com/";
-  var fb = new Firebase(FBURL);
-  var auth = $firebaseAuth(fb);
-  
-  
-  var service = {
-    register: function (user) {
-      return auth.$createUser(user);
-    },
-    login: function(user) {
-      return auth.$authWithPassword(user);
-    },
-    logout: function(){
-      return auth.$unAuth();
-    },
-    auth: function(){
-      return auth;
-    }
-  }
-  
-  return service;
-  
-});
 
 
 
-// Message service
-app.factory('MessageService', function($rootScope){
-    var service = {
-      types: {
-        success: 'bar bar-footer bar-balanced',
-        info: 'bar bar-footer bar-calm',
-        error: 'bar bar-footer bar-energized'
-      },
-      show: function(type, message){
-        this.message = message;
-        this.messageType = type;
-        this.messageVisible = true;
-      },
-      hide: function(){
-        this.message = '';
-        this.messageType = '';
-        this.messageVisible = false;
-      }
-    };
-    
-    return service;
-});
+
+
 
 
 
@@ -151,6 +106,9 @@ app.controller('AuthCtrl', function($scope, $firebaseArray, $location, $timeout,
       $scope.isLoading = true;
       
       Auth.login($scope.userObject).then(function(authData){
+        if(authData){
+          $rootScope.currentUser = authData;
+        }
         console.log(authData);
         MessageService.show(MessageService.success, "Logged in!");
         $scope.isLoading = false;
@@ -211,19 +169,7 @@ app.controller('StatusCtrl', function($scope, $firebaseArray, $ionicLoading, $st
 
 
 
-// Reports per spot Controller
-app.controller('ReportsCtrl', function($scope, $firebaseArray, $stateParams, $ionicNavBarDelegate){
 
-  var FBURL = "https://waveshout.firebaseio.com/";
-  $scope.spotId = $stateParams.spotId;
-  $scope.spotName = $stateParams.spotName;
-  
-  $ionicNavBarDelegate.title('Reports:' + $scope.spotName);
-
-  $scope.reports = $firebaseArray(new Firebase(FBURL + 'spots/' + $scope.spotId + '/reports'));
-  console.log(FBURL + 'spots/' + $scope.spotId + 'reports');
-  console.log($scope.reports);
-});
 
 
 
@@ -262,78 +208,5 @@ app.controller('MapCtrl', function($scope, $firebaseArray, $stateParams, $compil
 
 
 
-
-
-app.controller('ReportCtrl', function($scope, $firebaseArray, $stateParams, MessageService){
-  $scope.userAuth = false;
-
-  var FBURL = "https://waveshout.firebaseio.com/";
-  $scope.spotId = $stateParams.spotId;
-  $scope.spotName = $stateParams.spotName;
-
-  $scope.reports = $firebaseArray(new Firebase(FBURL + 'spots/' + $scope.spotId + '/reports'));
-  $scope.spots = $firebaseArray(new Firebase(FBURL + 'spots'));
-
-  $scope.report = {
-    'user': 'kazak',
-    'waveHeight': '',
-    'comment': '',
-    'wind': '',
-    'timestamp':  ''
-  }
-
-
-  $scope.addReport = function(){
-    $scope.isLoading = true;
-    $scope.reports.$add(
-        {
-          user: $scope.report.user,
-          waveHeight: $scope.report.waveHeight,
-          comment: $scope.report.comment,
-          wind: $scope.report.wind,
-          timestamp: timeStamp()
-        }
-      ).then(function(a){
-        $scope.isLoading = false;
-
-        // clear report object
-       
-      });
-
-    
-    console.log($scope.report);
-  }
-
-  function timeStamp() {
-    // Create a date object with the current time
-      var now = new Date();
-
-    // Create an array with the current month, day and time
-      var date = [ now.getMonth() + 1, now.getDate(), now.getFullYear() ];
-
-    // Create an array with the current hour, minute and second
-      var time = [ now.getHours(), now.getMinutes(), now.getSeconds() ];
-
-    // Determine AM or PM suffix based on the hour
-      var suffix = ( time[0] < 12 ) ? "AM" : "PM";
-
-    // Convert hour from military time
-      time[0] = ( time[0] < 12 ) ? time[0] : time[0] - 12;
-
-    // If hour is 0, set it to 12
-      time[0] = time[0] || 12;
-
-    // If seconds and minutes are less than 10, add a zero
-      for ( var i = 1; i < 3; i++ ) {
-        if ( time[i] < 10 ) {
-          time[i] = "0" + time[i];
-        }
-      }
-
-    // Return the formatted string
-      return date.join("/") + " " + time.join(":") + " " + suffix;
-    }
-
-});
 
 

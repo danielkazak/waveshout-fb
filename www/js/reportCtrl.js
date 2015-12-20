@@ -1,30 +1,44 @@
-angular.module('starter', ['ionic', 'firebase'])
+angular.module('starter')
+.controller('ReportCtrl', function($scope, $firebaseArray, $timeout, $location, $stateParams, $rootScope, MessageService, FB){
+  $scope.spotId = $stateParams.spotId;
+  $scope.spotName = $stateParams.spotName;
+  $scope.report = {};
 
-.controller('ReportCtrl', function($scope, $firebaseArray){
-	$scope.userAuth = false;
+  $scope.reports = FB.bind('spots/' + $scope.spotId + '/reports');
+  $scope.spots = FB.bind('spots');
 
-	var FBURL = "https://waveshout.firebaseio.com/";
-	$scope.reports = $firebaseArray(new Firebase(FBURL + 'reports'));
 
-	$scope.report = {
-		'spotId': '',
-		'userId': '',
-		'waveHeight': '',
-		'comment': '',
-		'timestamp': ''
-	}
+  $scope.addReport = function(){
+    if(!$rootScope.currentUser){
+      MessageService.show(MessageService.types.success, 'Please login first!');
+    } else {
+          $scope.isLoading = true;
+    $scope.reports.$add(
+        {
+          user: $rootScope.currentUser.password.email,
+          waveHeight: $scope.report.waveHeight,
+          comment: $scope.report.comment,
+          wind: $scope.report.wind,
+          timestamp: FB.timestamp()
+        }
+      ).then(function(a){
+        $scope.isLoading = false;
 
-	$scope.addReport = function(){
-		$scope.reports.$add(
-				{
-					spotId: $scope.report.spotId,
-					userId: $scope.report.userId,
-					waveHeight: $scope.report.waveHeight,
-					description: $scope.report.comment,
-					timestamp: $scope.reeport.timestamp
-				}
-			);
-		console.log($scope.report);
-	}
+        // clear report object
+       $scope.report = {};
+       $timeout(function(){$location.path('/reports/' + $scope.spotId + '/' + $scope.spotName);}, 1500);
+
+       // Add report success & thanks message
+      });
+
+    
+    console.log($scope.report);
+    }
+
+  }
+
+  
 
 });
+
+
