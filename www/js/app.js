@@ -70,59 +70,6 @@ app.config(function($stateProvider, $urlRouterProvider) {
 
 
 
-// Authentication page controller
-app.controller('AuthCtrl', function($scope, $firebaseArray, $location, $timeout, $ionicPopup, $stateParams, MessageService, $rootScope, Auth){
-  $scope.isLoading = false;
-  $scope.userObject = {
-    'email': '',
-    'password': '',
-  }
-
-
-  // Create new user on Firebase
-  $scope.createUser = function(){
-    // VALIDATIONS //
-    
-    // Show loader
-    $scope.isLoading = true;
-    
-    Auth.register($scope.userObject).then(function(regData){
-      console.log(regData);
-      MessageService.show(MessageService.success, 'Welcome!');
-      $scope.isLoading = false;
-     $timeout(function(){$location.path('/');}, 2000);
-    }).catch(function(error){
-      console.log(error);
-      MessageService.show(MessageService.error, error.message);
-      $scope.isLoading = false;
-    });
-    
-  };
-    
-    // User Login
-    $scope.userLogin = function(){
-      
-      // Show loader
-      $scope.isLoading = true;
-      
-      Auth.login($scope.userObject).then(function(authData){
-        if(authData){
-          $rootScope.currentUser = authData;
-        }
-        console.log(authData);
-        MessageService.show(MessageService.success, "Logged in!");
-        $scope.isLoading = false;
-        $timeout(function(){$location.path('/');}, 2000);
-      }).catch(function(error){
-        console.log(error);
-        MessageService.show(MessageService.error, error.message);
-        $scope.isLoading = false;
-      });
-      
-    }
-
-});
-
 
 
 
@@ -176,33 +123,6 @@ app.controller('StatusCtrl', function($scope, $firebaseArray, $ionicLoading, $st
 
 
 
-
-app.controller('MapCtrl', function($scope, $firebaseArray, $stateParams, $compile, $ionicLoading){
-  console.log('mapctrl');
-  google.maps.event.addDomListener(window, 'load', function() {
-        console.log('fire');
-        var myLatlng = new google.maps.LatLng(37.3000, -120.4833);
- 
-        var mapOptions = {
-            center: myLatlng,
-            zoom: 16,
-            mapTypeId: google.maps.MapTypeId.ROADMAP
-        };
- 
-        var map = new google.maps.Map(document.getElementById("map"), mapOptions);
- 
-        navigator.geolocation.getCurrentPosition(function(pos) {
-            map.setCenter(new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude));
-            var myLocation = new google.maps.Marker({
-                position: new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude),
-                map: map,
-                title: "My Location"
-            });
-        });
- 
-        $scope.map = map;
-    });
-});
 
 
 

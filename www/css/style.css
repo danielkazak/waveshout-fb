@@ -8,6 +8,14 @@
 	height: 100%;
 }
 
+.scroll {
+  height: 100%;
+}
+
+.circle {
+  -webkit-border-radius: 50px;
+}
+
 .loader-wave {
 	width: 60%;
 	height: 100%;
@@ -47,15 +55,6 @@
 	color: white;
 }
 
-/*.item{
-	background-color: #515151;
-	opacity: 1;
-	font-size: 120%;
-	font-weight: bold;
-	border: none;
-	-webkit-border-radius: 2px;
-	color: #3fd2ff;
-}*/
 
 .user-comment {
 	color: white;
@@ -66,20 +65,13 @@
     animation: fadeInLeft 3s;
 }
 
-/*.login-input-border {
-	background-color: #4B5052;
-	
-	height: 10vh;
-}*/
+.background-active {
+    background-color: #3fd2ff;
+}
 
-
-
-
-
-/*.login-input {
-	color: #3fd2ff;
-}*/
-
+.text-active {
+    color: #3fd2ff;
+}
 
 
 .transparent {
@@ -121,31 +113,24 @@
 	color: #3fd2ff
 }
 
-.login-item {
-	background-color: transparent;
-	border: none;
-}
 
 .login-input-item {
-	background-color: #7D7D7D;
-	padding: 5px;
-	width: 100%;
-	border: none;
-	-webkit-border-radius: 2px;
-	color: #3fd2ff;
-	height: 40px;
+    
 }
 
-.login-input-item:focus /* check conditional!! */ {
-  background-color: #3fd2ff;
-  -webkit-placeholder-color: white;
-  color: white;
-  -webkit-animation-name: rubber;
-  animation-name: rubber;
-  -webkit-animation-duration: 1s;
-  animation-duration: 1s;
-  -webkit-animation-fill-mode: both;
-  animation-fill-mode: both;
+.login-input-item:focus{
+    color: #3fd2ff;
+     -webkit-placeholder-color: #3fd2ff;
+     -webkit-animation-name: rubber;
+     -webkit-animation-duration: 1s;
+}
+
+
+
+/* Text */
+
+.text-medium {
+  font-size: 7vw;
 }
 
 
@@ -155,6 +140,16 @@
 
 
 /** ANIMATIONS **/
+.animation-rubber {
+  -webkit-animation-name: rubber;
+  animation-name: rubber;
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+
+
 @-webkit-keyframes rubber {
   from {
     -webkit-transform: scale3d(1, 1, 1);

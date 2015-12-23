@@ -34,6 +34,7 @@
     <script src="js/reportsListCtrl.js"></script>
     <script src="js/reportCtrl.js"></script>
     <script src="js/authCtrl.js"></script>
+    <script src="js/mapCtrl.js"></script>
     <script src="js/message-service.js"></script>
 
   </head>
@@ -44,8 +45,8 @@
              
              <ion-nav-buttons side="right">
               <button class="button button-clear" ng-click="doSomething()" ui-sref="auth">
-                <i ng-class="$root.currentUser ? 'icon ion-person icon-user calm' : 'icon ion-person icon-user light'"></i>
-                {{$root.currentUser.password.email}}
+                <i ng-class="$root.currentUser ? 'icon ion-android-person icon-user calm' : 'icon ion-android-person icon-user light'"></i>
+                {{$root.currentUser.password.email.split('@')[0]}}
               </button>
              </ion-nav-buttons>
 
@@ -66,7 +67,7 @@
   <!--  <button class="button button-clear pull-right" ng-click="hideMessage()">Close</button>-->
   <!--</div>-->
   
-  <ion-footer-bar align-title="left" class="bar-assertive">
+  <ion-footer-bar align-title="left" class="bar-assertive" ng-show="false">
     <h1 class="title">{{baba.myInput}}bb</h1>
     <div class="buttons" ng-click="hideMessage()">
       <button class="button button-clear">Close</button>

@@ -13,67 +13,91 @@
             </center>
 
             <!-- Login form -->
-              <div class="list list-inset ">
+              <div class="list list-inset " ng-show="!$root.currentUser">
                   
+                    
+                  <div class="list list-inset ">
+                    <label class="item item-input">
+                      <i class="icon ion-email placeholder-icon"></i>
                       <input class="login-input-item" type="text" placeholder="Email" ng-model="userObject.email">
-                      <br>
-                  
-                      <input class="login-input-item" type="text" placeholder="Password" ng-model="userObject.password">
-                  
-                  
-                  
-                  
-                 <!-- <div class="item item-input-inset login-input-border">
-                    <label class="item-input">
-                      <input class"login-input" type="password" placeholder="Password" ng-model="userObject.password">
                     </label>
-                  </div>-->
+                    <br>
+                     <label class="item item-input">
+                      <i class="icon ion-locked placeholder-icon"></i>
+                      <input class="login-input-item" type="password" placeholder="Password" ng-model="userObject.password">
+                    </label>
+                 
                   
-                  <center>
-                    <ion-spinner class="spinner-calm loader-wave" icon="lines" ng-show="isLoading"></ion-spinner>
-                  </center>
                   
-                  <button class="button button-block button-calm" ng-click="userLogin()" ng-hide="isLoading">
-                      Login
-                  </button>
+                  <div class="row">
+                    <div class="col-60 text-active">Forgot password?</div>
+                    <div class="col col-40">
+                        <center>
+                          <ion-spinner class="spinner-calm loader-wave" icon="lines" ng-show="isLoading"></ion-spinner>
+                        </center>
+                        
+                        <button class="button button-block button-calm" ng-click="userLogin()" ng-hide="isLoading">
+                            Login
+                        </button>
+                    </div>
+                  </div>
+                </div> 
                   
                   <!--<div class="item animated infinite fadeInRight transparent">
                     <label>Swipe to register</label>
                   </div>-->
                   
               </div>
+              
+              <!-- Logged in user screen -->
+             <div class="list list-inset" ng-show="$root.currentUser">
+                 {{$root.currentUser.password.email}}
+             </div>
+              
+              
             </div>
         </ion-slide>
         
             <!-- User Registration screen -->
         <ion-slide>
             <div class="box">
-             <div class="list list-inset">
-                 <div class="item item-input-inset">
-                    <label class="item-input-wrapper">
-                      <input type="text" placeholder="Name">
+             <div class="list list-inset" ng-show="!$root.currentUser">
+                  <div class="list list-inset ">
+                    <label class="item item-input">
+                      <i class="icon ion-android-person placeholder-icon"></i>
+                      <input class="login-input-item" type="text" placeholder="Name" ng-model="userObject.name">
                     </label>
-                  </div>
+                    <br>
+                    <label class="item item-input">
+                      <i class="icon ion-email placeholder-icon"></i>
+                      <input class="login-input-item" type="text" placeholder="Email" ng-model="userObject.email">
+                    </label>
+                    <br>
+                     <label class="item item-input">
+                      <i class="icon ion-locked placeholder-icon"></i>
+                      <input class="login-input-item" type="password" placeholder="Password" ng-model="userObject.password">
+                    </label>
                  
-                  <div class="item item-input-inset">
-                    <label class="item-input-wrapper">
-                      <input type="text" placeholder="Email" ng-model="userObject.email">
-                    </label>
-                  </div>
                   
-                  <div class="item item-input-inset">
-                    <label class="item-input-wrapper">
-                      <input type="password" placeholder="Password" ng-model="userObject.password">
-                    </label>
-                  </div>
                   
-                  <center>
-                    <ion-spinner class="spinner-calm loader-wave" icon="lines" ng-show="isLoading"></ion-spinner>
-                  </center>
-                  <button class="button button-block button-calm" ng-click="createUser()" ng-hide="isLoading">
-                      Create Account
-                  </button>
+                  
+                        <center>
+                          <ion-spinner class="spinner-calm loader-wave" icon="lines" ng-show="isLoading"></ion-spinner>
+                        </center>
+                        
+                        <button class="button button-block button-calm" ng-click="createUser()" ng-hide="isLoading">
+                            Create user
+                        </button>
+                  
+                </div> 
              </div>
+             
+             
+             <!-- Logged in user screen -->
+             <div class="list list-inset" ng-show="$root.currentUser">
+                 Settings for: {{$root.currentUser.password.email}}
+             </div>
+             
             </div>
         </ion-slide>
        
