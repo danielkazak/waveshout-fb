@@ -2,7 +2,7 @@ angular.module('starter')
     .controller('MapCtrl', function($scope, $firebaseArray, $stateParams, $compile, $ionicLoading){
       console.log('mapctrl');
            function initialize() {
-        var myLatlng = new google.maps.LatLng(43.07493,-89.381388);
+        var myLatlng = new google.maps.LatLng(32.168430, 34.798479);
         
         var mapOptions = {
           center: myLatlng,
@@ -13,7 +13,7 @@ angular.module('starter')
             mapOptions);
         
         //Marker + infowindow + angularjs compiled ng-click
-        var contentString = "<div><a ng-click='clickTest()'>Click me!</a></div>";
+        var contentString = "<div><a ng-click='clickTest()'>Marina</a></div>";
         var compiled = $compile(contentString)($scope);
 
         var infowindow = new google.maps.InfoWindow({
@@ -21,9 +21,10 @@ angular.module('starter')
         });
 
         var marker = new google.maps.Marker({
+          icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
           position: myLatlng,
           map: map,
-          title: 'Uluru (Ayers Rock)'
+          title: 'Marina, Herzliya'
         });
 
         google.maps.event.addListener(marker, 'click', function() {
